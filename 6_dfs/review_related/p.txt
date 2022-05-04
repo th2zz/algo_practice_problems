@@ -1,0 +1,14 @@
+652 · Factorization
+Medium
+270 · Letter Combinations of a Phone Number II
+Medium
+52 · Next Permutation
+Medium
+33 · N-Queens
+Medium
+16 · Permutations II
+Medium
+634 · Word Squares
+Hard
+623 · K Edit Distance
+Hard
