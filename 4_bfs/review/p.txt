@@ -1,0 +1,20 @@
+155 · Minimum Depth of Binary Tree
+Easy
+69 · Binary Tree Level Order Traversal
+Easy
+1179 · Friend Circles
+Medium
+939 · Binary Tree Kth Floor Node
+Medium
+788 · The Maze II
+Medium
+787 · The Maze
+Medium
+624 · Remove Substrings
+Medium
+531 · Six Degrees
+Medium
+70 · Binary Tree Level Order Traversal II
+Medium
+794 · Sliding Puzzle II
+Hard
