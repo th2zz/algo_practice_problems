@@ -31,16 +31,50 @@ DFS通常用于解决排列和组合问题 以及暴力搜索动态规划(memo d
 - 递归的拆解和递进
   - 如何拆解出同样问题结构的子问题  子问题唯一的不同是参数的数据规模不同 
   - 子问题应当朝base case进行递进
-  - 这个过程像在先反向proof by induction  然后再递推
-    - 先证明几个base case, 假设k is true(induction hypothesis) prove k + 1 is true; 
-    - 先假设我们的递归定义能够magically solve the problem, 那么他也能magically solve规模更小的问题
+  - 这个过程像在先反向proof by induction  然后再递推 当函数调用链条触达到“基本情况”时（比如 f(0)），它返回一个确定的值。 这个返回值被上一层 f(1) 接收，f(1) 利用这个值完成自己的计算，然后再把结果返回给 f(2)... 这个过程就像一个自底向上 (bottom-up) 的“递推”（Iteration）
+    - proof by induction先证明几个base case, 假设k is true(induction hypothesis) prove k + 1 is true; 
+    - recursion: 先假设我们的递归定义能够magically solve the problem, 那么他也能magically solve规模更小的问题 (n-1, n-2, ..., base case)
       - 终点和出口 是base case base case是比较trival的 直接得出结论
 
     
   
-组合问题通常需要index作为递归参数 因为常用的累积式 组合搜索树是一个渐进的过程
+- 组合问题通常需要index作为递归参数 因为常用的累积式 组合搜索树是一个渐进的过程
 需要通过index来作为新的 子问题起点
+- 排列问题一般不需要index作为递归参数 但需要visited判断是否选过
 
-排列问题一般不需要index作为递归参数 但需要visited判断是否选过
+- 组合 (Combinations): 核心是**“无序性”。[1, 2] 和 [2, 1] 被视为相同。index (或 startIndex) 参数是解决这个问题的关键，它通过强制搜索“只能向后看”**，确保了元素总是以升序被选中，从而天然地避免了重复。
 
-重复的元素需要选择有代表性的一个 是比较简单的去重方法
+- 排列 (Permutations): 核心是**“有序性”。[1, 2] 和 [2, 1] 是不同的。visited 数组是解决这个问题的关键，它确保了“每个元素只用一次”，但允许在递归的任何一层“从头开始看”**（即从0到n-1遍历），只要那个元素没被visited
+
+- 重复的元素需要选择有代表性的一个 是比较简单的去重方法
+
+
+- 组合 (Combinations)：基于 index 的“组合树”
+  - 搜索形态： 树的每一层，可选择的“子节点”是越来越少的。
+  - 举例 [1, 2, 3] 选 2 个：
+    - Root (根)
+    - Level 1: (可选 1, 2, 3)
+    - 选 1 -> Level 2 (可选 2, 3)
+    - 选 2 -> Level 2 (可选 3)
+    - 选 3 -> Level 2 (无可选)
+  - index 的作用： 在这里是**“结构性剪枝”。它不是为了跳过某个元素，而是为了“剪掉”所有会导致重复组合的分支**。例如，当选了 2 之后，index 让我们从 3 开始，1 那个分支被整个剪掉了，因为它会产生 [2, 1]，这与 [1, 2] 重复。
+- 排列 (Permutations)：基于 visited 的“排列树”
+  - 搜索形态： 树的每一层，可选择的“子节点”数量只取决于“还剩多少没用过”。
+  - 举例 [1, 2, 3] 全排列：
+  - Root (根)
+    - Level 1: (可选 1, 2, 3)
+    - 选 1 -> Level 2 (可选 2, 3)
+    - 选 2 -> Level 2 (可选 1, 3)
+    - 选 3 -> Level 2 (可选 1, 2)
+  - visited 的作用： 在这里是**“状态剪枝”。它不改变树的基本结构（每一层原则上都可以选1到n），而是根据实时状态（visited数组）来“跳过”**那些已经被用过的节点。
+
+
+### 总结对比
+
+| 特性 | 组合 (Combinations) | 排列 (Permutations) - `visited`法 | 排列 (Permutations) - 交换法 |
+| :--- | :--- | :--- | :--- |
+| **核心问题** | 顺序无关，如何**去重**？ | 顺序有关，如何保证**不漏**？ | 顺序有关，如何**原地**完成？ |
+| **关键参数** | `startIndex` | `visited[]` | `index` |
+| **参数含义** | 本轮搜索的**起点** | 哪些元素**已被使用** | 当前正在填充的**位置** |
+| **剪枝逻辑** | `i` 从 `startIndex` 开始 | `if (visited[i])` | `i` 从 `index` 开始 |
+| **处理重复** | `if (i > startIndex && nums[i] == nums[i-1])` | `if (i > 0 && nums[i] == nums[i-1] && !visited[i-1])` | （交换法处理重复更复杂，也需排序和剪枝） |
