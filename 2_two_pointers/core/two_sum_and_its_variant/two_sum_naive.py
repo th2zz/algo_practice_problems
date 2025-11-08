@@ -1,4 +1,5 @@
 class Solution:
+    # two pointers require array to be sorted
     def twoSum(self, numbers, target):
         numbers.sort()
         left, right = 0, len(numbers) - 1

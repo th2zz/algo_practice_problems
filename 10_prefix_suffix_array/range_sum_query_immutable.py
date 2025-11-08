@@ -8,7 +8,7 @@ class NumArray:
     # for i, x in enumerate(nums):
     #     s[i + 1] = s[i] + x
     def __init__(self, nums: List[int]):
-        s = list(accumulate(nums, initial=0))
+        s = list(accumulate(nums, initial=0))  # a good way to prepare prefix sum array [0, 1, 3, ..]
         self.s = s
 
     # Returns the sum of the elements of nums between indices left and right inclusive

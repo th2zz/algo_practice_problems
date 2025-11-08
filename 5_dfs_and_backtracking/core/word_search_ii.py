@@ -79,10 +79,10 @@ class Solution:
         if c not in node.c2node_map:  # non-existent route
             return
         curr = node.c2node_map[c]
-        if curr.cnt > 0:
+        if curr.cnt > 0:  # base case update result
             results.append("".join(path))
-            curr.cnt = 0  # prevent dups
-        if not curr.c2node_map:
+            curr.cnt = 0  # prevent dups by reset trie node.cnt
+        if not curr.c2node_map:  # pruning if a trie node is empty delete it not useful
             del node.c2node_map[c]
             return
         # 剪枝优化 如果当前节点没孩子 从父节点删掉当前节点信息(kv) return

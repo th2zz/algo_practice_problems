@@ -50,9 +50,9 @@ class Solution:
         ans = []
 
         def increment(word, number, counter):
-            count[word] += number
-            if count[word] == 0:
-                del count[word]
+            counter[word] += number
+            if counter[word] == 0:
+                del counter[word]
 
         for start in range(k):
             curr = start

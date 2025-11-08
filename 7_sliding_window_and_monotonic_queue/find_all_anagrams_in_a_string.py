@@ -7,20 +7,9 @@ class Solution:
     # Input: s = "cbaebabacd", p = "abc" Output: [0,6]
     # Input: s = "abab", p = "ab", Output: [0,1,2]
     # https://leetcode.cn/problems/find-all-anagrams-in-a-string/solutions/2969498/liang-chong-fang-fa-ding-chang-hua-chuan-14pd
+    
+    # fixed size sliding window of len(p)
     def findAnagrams(self, s: str, p: str) -> List[int]:
-        ans = []
-        cnt = Counter(p)  # 统计 p 的每种字母的出现次数
-        left = 0
-        for right, c in enumerate(s):
-            cnt[c] -= 1  # 右端点字母进入窗口
-            while cnt[c] < 0:  # 字母 c 太多了
-                cnt[s[left]] += 1  # 左端点字母离开窗口
-                left += 1
-            if right - left + 1 == len(p):  # s' 和 p 的每种字母的出现次数都相同
-                ans.append(left)  # s' 左端点下标加入答案
-        return ans
-
-    def findAnagrams2(self, s: str, p: str) -> List[int]:
         ans = []
         cnt_p = Counter(p)  # 统计 p 的每种字母的出现次数
         cnt_s = Counter()  # 统计 s 的长为 len(p) 的子串 s' 的每种字母的出现次数
@@ -32,6 +21,21 @@ class Solution:
             if cnt_s == cnt_p:  # s' 和 p 的每种字母的出现次数都相同
                 ans.append(left)  # s' 左端点下标加入答案
             cnt_s[s[left]] -= 1  # 左端点字母离开窗口
+        return ans
+    
+    # two pointers
+    
+    def findAnagrams2(self, s: str, p: str) -> List[int]:
+        ans = []
+        cnt = Counter(p)  # 统计 p 的每种字母的出现次数
+        left = 0
+        for right, c in enumerate(s):
+            cnt[c] -= 1  # 右端点字母进入窗口
+            while cnt[c] < 0:  # 字母 c 太多了
+                cnt[s[left]] += 1  # 左端点字母离开窗口
+                left += 1
+            if right - left + 1 == len(p):  # s' 和 p 的每种字母的出现次数都相同
+                ans.append(left)  # s' 左端点下标加入答案
         return ans
 
 

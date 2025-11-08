@@ -1,7 +1,6 @@
 class TrieNode:
     def __init__(self, parent, cnt) -> None:
         self.children = {}  # dict ch-> new node
-        self.is_word = False
         self.parent = parent
         self.cnt = cnt  # how many words end here
 

@@ -48,6 +48,7 @@ Insert Delete GetRandom O(1) - Duplicates allowed
 Hard
 设计一种数据结构 支持 插入删除getRandom O(1) on average, 假设无重复元素   getRandom return 1 element uniformly at random
 (each element with same probabilty of getting returned)
+核心在于反向索引的set解决删除时查找O(n)变O(1)
     """
 
     def __init__(self):

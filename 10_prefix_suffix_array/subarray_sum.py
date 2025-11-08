@@ -56,7 +56,7 @@ Medium
         prefix_sum = 0  # prefix sum -> end_idx
         for i, num in enumerate(nums):
             prefix_sum += num  # 计算当前前缀和
-            if prefix_sum in d:  # 如果见过当前前缀和 那么  [d[prefix_sum] + 1, ..., i] 为一组解
+            if prefix_sum in d:  # 如果见过当前前缀和 那么  [d[prefix_sum] + 1, ..., i] 为一组解;  sum - k (k=0 special case)
                 return [d[prefix_sum] + 1, i]
             d[prefix_sum] = i  # 更新当前 前缀和:end_idx 映射关系到字典中 字典中仅维护了一组most up to date数据
         return [-1, -1]

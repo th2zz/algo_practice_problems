@@ -66,16 +66,13 @@ set(key, value) set一个key的值 缓存满时需要淘汰least recently used i
         self.tail = self.dummy  # 维护 tail指针
         self.key2prev = {}  # 维护一个 key: prev指针  map
 
-    def put(self, key: int, value: int):
-        return self.set(key=key, value=value)
-
     def set(self, key: int, value: int):
-        if key in self.key2prev:  # 已经存在的key: 覆盖一下值 最近使用的都放到末尾
+        if key in self.key2prev:  # 已经存在的key: 刷新一下 最近使用的都放到末尾
             self.move_node_to_tail(key)
             self.tail.value = value
             return
         self.push_back(LinkedNode(key, value))  # 不存在的key 直接append 末尾
-        if len(self.key2prev) > self.capacity:  # 如果缓存已满 pop front = evict least recently used item
+        if len(self.key2prev) > self.capacity:  # 如果缓存已满 pop front 淘汰least recently used item
             self.pop_front()
 
     def get(self, key: int):
@@ -97,13 +94,11 @@ set(key, value) set一个key的值 缓存满时需要淘汰least recently used i
         del self.key2prev[head.key]  # 从map中删除
         head.next = None
 
-    # 将key节点移动到尾部: 从从链表中删掉节点, 更新map相关信息 push_back node追加到末尾
-    def move_node_to_tail(self, key):
+    def move_node_to_tail(self, key):  # 将key节点移动到尾部: 从从链表中删掉节点, 更新map相关信息 push_back node追加到末尾
         prev = self.key2prev[key]  # 通过维护的key:prev map 获取prev 和 node 引用
         node = prev.next
         if node == self.tail:  # 幂等检查 node已经是tail 返回
             return
-        # 删掉key对应的node 后 pushback
         prev.next = node.next  # prev.next跳过node
         self.key2prev[node.next.key] = prev  # 更新node下一个 key对应的prev节点 即prev
         node.next = None  # 断掉keynode 和下个节点的 连接
