@@ -53,5 +53,5 @@ class Solution:  # O(N) O(1) N=#list nodes
     def interleave(self, l1, l2):
         while l1 and l2:
             l1_remains, l2_remains = l1.next, l2.next
-            l1.next, l2.next = l2,  l1_remains
+            l1.next, l2.next = l2,  l1_remains  # 倒三角链法单元操作 然后前进指针
             l1, l2 = l1_remains, l2_remains

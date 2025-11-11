@@ -76,7 +76,7 @@ Hard
             return False
         index_of_val = self.valToindexDict[val]
         last_val = self.nums[-1]
-        self.nums[index_of_val] = last_val  # val不是最后一个元素 把最后一个元素放到val位置上
+        self.nums[index_of_val] = last_val  # 把最后一个元素放到要删元素位置上，更新map
         self.valToindexDict[last_val] = index_of_val
         self.nums.pop()  # 无脑delete last element O(1)
         del self.valToindexDict[val]

@@ -60,17 +60,17 @@ Easy
     """
 
     def __init__(self):
-        self.dummy = LinkedNode()  # 维系一个unique node链表 出现仅1次的
+        self.dummy = LinkedNode()  # 维系一个unique node链表 出现仅1次的, head(dummy.next) is first unique number
         self.tail = self.dummy
         self.key2prev = {}  # 出现仅1次的
         self.duplicates = set()  # 出现至少2次的数
 
-    def push_back(self, node):
+    def push_back(self, node):  # update key2prev map and tail reference
         self.key2prev[node.key] = self.tail
         self.tail.next = node
         self.tail = node
 
-    def remove(self, num):
+    def remove(self, num):  # O(1) get prev reference and delete node, update map and tail
         prev = self.key2prev[num]
         node = prev.next  # 获取prev 和 node引用
         next = node.next
@@ -87,7 +87,7 @@ Easy
     @return: nothing
     """
 
-    def add(self, num):  # O(1)
+    def add(self, num):  # O(1) check duplicate set, key2prev map, move number to duplicate set if find it second time
         if num in self.duplicates:  # 第二次及以上遇到 已经在duplicates, 重复直接返回
             return
         if num not in self.key2prev:  # 第一次遇到: self.key2prev维护了独特num链表信息, 加入链表并更新信息

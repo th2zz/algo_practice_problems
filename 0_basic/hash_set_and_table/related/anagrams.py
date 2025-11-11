@@ -1,7 +1,7 @@
 from typing import (
     List,
 )
-
+from collections import defaultdict
 
 class Solution:
     """https://www.lintcode.com/problem/171
@@ -58,13 +58,11 @@ Easy
     """
 
     def anagrams(self, strs: List[str]) -> List[str]:
-        table = {}  # key: anagram representative sorted str : [strs that are in the same anagram group]
+        # key: anagram representative sorted str : [strs that are in the same anagram group]
+        table = defaultdict(list)
         for word in strs:
             sorted_word = ''.join(sorted(word))
-            if sorted_word not in table:
-                table[sorted_word] = [word]  # init, add word to anagram group
-            else:
-                table[sorted_word].append(word)  # add to anagram group
+            table[sorted_word].append(word)
         res = []
         for anagram_group in table.values():
             if len(anagram_group) >= 2:  # add anagram group of size >= 2 to res, as required by the question

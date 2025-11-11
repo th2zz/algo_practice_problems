@@ -60,7 +60,7 @@ class Solution:
         for c, fcnt in freq.items():
             if fcnt % 2 == 1:
                 oddcnt += 1
-        return len(s) if oddcnt < 1 else len(s) - oddcnt + 1
+        return len(s) if oddcnt < 1 else len(s) - (oddcnt - 1)
 
 
 # print(Solution().longestPalindrome("bb"))

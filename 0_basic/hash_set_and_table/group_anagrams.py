@@ -7,9 +7,8 @@ class Solution:
             counts = [0] * 26
             for ch in st:
                 counts[ord(ch) - ord("a")] += 1
-            mp[tuple(counts)].append(
-                st
-            )  # 需要将 list 转换成 immutable tuple 才能进行哈希
+            mp[tuple(counts)].append(st)
+            # 需要将 list 转换成 immutable tuple 才能进行哈希
         return list(mp.values())
 
     # 通过排序后的单词当hash key;适合单词较短情况 O(N*K*logK) O(NK)

@@ -31,13 +31,14 @@ class Solution:  # https://leetcode.cn/problems/insert-interval/
     newInterval.length == 2
     0 <= start <= end <= 105
     """
-
+    # 重合的定义 两个区间重合的充分且必要条件是 A.start <= B.end and B.start <= A.end
     # 1. append all non-overlapping intervals until there is an overlap
-    #    now interval.end >= newInterval.start  e.g. [2,4] [3,5] or [2,4] [4,5]
+    #    now intervals[i].end >= newInterval.start  e.g. [2,4] [3,5] or [2,4] [4,5]
     # 2. construct a big interval by merging consecutive overlapping intervals and append once we are done
-    #    绿区间为我们在遍历的区间，蓝区间为新插入区间 想象蓝区间从一众绿区间上划到右边
-    #    如果有重叠，则必须满足 绿区间的左端 <= 蓝区间的右端  绿左<=蓝右
-    #    为什么不能判断 绿右>= 蓝左 ? [蓝]  [绿] 因为如果绿在蓝后面 也满足绿右>=蓝左
+    #       treat intervals[i] as A and newInterval as B
+    #       A.end >= B.start has been guranteed, 
+    #       to check for overlapping, we need to check the other condition A start <= B.end
+    #       which means intervals[i][0] <= newInterval[1]
     # 3. now no overlapping intervals anymore, append rest of intervals remained
     def insert(
         self, intervals: List[List[int]], newInterval: List[int]

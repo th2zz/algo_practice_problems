@@ -21,19 +21,24 @@ class Solution:  # https://leetcode.cn/problems/merge-intervals/
     1 <= intervals.length <= 104
     intervals[i].length == 2
     0 <= starti <= endi <= 104
+    
+    重合的定义 两个区间重合的充分且必要条件是 A.start <= B.end and B.start <= A.end
+    两个区间不重合的充分且必要条件是 A.end < B.start or B.end < A.start
+    无重合的判断： 末尾的end < 下一个区间的start
+    else 就是重合的情况  需要合并
+    将末尾区间认为是A, 下一个区间认为是B
+    A.end >= B.start已经在else中成立
+    A.start <= B.end 也是成立的 因为A.start <= B.start (已经排序过了) <= B.end (题目限定了start <= end)
     """
 
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        sorted_intervals = sorted(intervals, key=lambda x: x[0])  # sort by start
+        sorted_intervals = sorted(intervals, key=lambda x: x[0])
         res = []
-        # 这里[1,2] [2,3] 也会被认为是重合的  需要被合并
         for interval in sorted_intervals:
-            # res empty or res[-1].end < interval.start = 无重合
             if not res or res[-1][1] < interval[0]:
                 res.append(interval)
             else:
                 res[-1][1] = max(
                     res[-1][1], interval[1]
-                )  # update tail interval end value := max  if overlapped
-
+                )  # update tail interval end value := max  if overlapped to merge
         return res
